@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendyShop - Online Alışveriş</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <div class="container">
+                <div class="header-top-content">
+                    <div class="header-links">
+                        <a href="#" class="header-link" onclick="showSellerModal()">Satıcı Ol</a>
+                        <a href="#" class="header-link">Yardım & Destek</a>
+                    </div>
+                    <div class="header-actions">
+                        <a href="#" class="header-link" onclick="showLoginModal()">
+                            <i class="fas fa-user"></i> Giriş Yap
+                        </a>
+                        <a href="#" class="header-link" onclick="showFavoritesModal()">
+                            <i class="fas fa-heart"></i> Favorilerim
+                            <span class="favorites-count" id="favoritesCount">0</span>
+                        </a>
+                        <a href="#" class="header-link cart-link" onclick="toggleCart()">
+                            <i class="fas fa-shopping-cart"></i> Sepetim
+                            <span class="cart-count" id="cartCount">0</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="header-main">
+            <div class="container">
+                <div class="header-main-content">
+                    <div class="logo">
+                        <h1>TrendyShop</h1>
+                    </div>
+                    
+                    <div class="search-bar">
+                        <input type="text" placeholder="Aradığınız ürün, kategori veya markayı yazınız" id="searchInput">
+                        <button class="search-btn" onclick="searchProducts()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <nav class="navbar">
+            <div class="container">
+                <ul class="nav-menu">
+                    <li><a href="#" onclick="filterByCategoryAndScroll('all')">Tüm Kategoriler</a></li>
+                    <li><a href="#" onclick="filterByCategoryAndScroll('elektronik')">Elektronik</a></li>
+                    <li><a href="#" onclick="filterByCategoryAndScroll('moda')">Moda</a></li>
+                    <li><a href="#" onclick="filterByCategoryAndScroll('ev')">Ev & Yaşam</a></li>
+                    <li><a href="#" onclick="filterByCategoryAndScroll('spor')">Spor & Outdoor</a></li>
+                    <li><a href="#" onclick="filterByCategoryAndScroll('kozmetik')">Kozmetik</a></li>
+                    <li><a href="#" onclick="filterByCategoryAndScroll('kitap')">Kitap</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-slider">
+                <div class="hero-slide active">
+                    <div class="hero-content">
+                        <h2>Yeni Sezon İndirimleri</h2>
+                        <p>%70'e varan indirimlerle favori ürünlerinizi kaçırmayın!</p>
+                        <button class="cta-btn" onclick="scrollToProducts()">Hemen Keşfet</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories" id="categories">
+        <div class="container">
+            <h2 class="section-title">Kategoriler</h2>
+            <div class="category-grid">
+                <div class="category-card" onclick="filterByCategory('all')">
+                    <i class="fas fa-th-large"></i>
+                    <h3>Tüm Kategoriler</h3>
+                </div>
+                <div class="category-card" onclick="filterByCategory('elektronik')">
+                    <i class="fas fa-laptop"></i>
+                    <h3>Elektronik</h3>
+                </div>
+                <div class="category-card" onclick="filterByCategory('moda')">
+                    <i class="fas fa-tshirt"></i>
+                    <h3>Moda</h3>
+                </div>
+                <div class="category-card" onclick="filterByCategory('ev')">
+                    <i class="fas fa-home"></i>
+                    <h3>Ev & Yaşam</h3>
+                </div>
+                <div class="category-card" onclick="filterByCategory('spor')">
+                    <i class="fas fa-dumbbell"></i>
+                    <h3>Spor</h3>
+                </div>
+                <div class="category-card" onclick="filterByCategory('kozmetik')">
+                    <i class="fas fa-palette"></i>
+                    <h3>Kozmetik</h3>
+                </div>
+                <div class="category-card" onclick="filterByCategory('kitap')">
+                    <i class="fas fa-book"></i>
+                    <h3>Kitap</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section class="products" id="products">
+        <div class="container">
+            <div class="products-header">
+                <h2 class="section-title">Öne Çıkan Ürünler</h2>
+                <div class="filters">
+                    <select id="sortSelect" onchange="sortProducts()">
+                        <option value="default">Sırala</option>
+                        <option value="price-low">Fiyat (Düşük → Yüksek)</option>
+                        <option value="price-high">Fiyat (Yüksek → Düşük)</option>
+                        <option value="rating">En Yüksek Puan</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="product-grid" id="productGrid">
+                <!-- Ürünler JavaScript ile yüklenecek -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h3>Sepetim</h3>
+            <button class="close-cart" onclick="toggleCart()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p class="empty-cart">Sepetiniz boş</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Toplam: <span id="cartTotal">0 ₺</span></span>
+            </div>
+            <button class="checkout-btn" onclick="checkout()">Sepeti Onayla</button>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Giriş Yap</h3>
+                <button class="close-modal" onclick="hideLoginModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm">
+                    <div class="form-group">
+                        <input type="email" placeholder="E-posta adresiniz" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Şifreniz" required>
+                    </div>
+                    <button type="submit" class="login-btn">Giriş Yap</button>
+                </form>
+                <div class="modal-footer">
+                    <p>Hesabınız yok mu? <a href="#" onclick="showRegisterModal()">Kayıt Ol</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Kayıt Ol</h3>
+                <button class="close-modal" onclick="hideRegisterModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="registerForm">
+                    <div class="form-group">
+                        <input type="text" placeholder="Ad Soyad" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="E-posta adresiniz" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Telefon numaranız" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Şifre oluşturun" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" placeholder="Şifre tekrar" required>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <label>
+                            <input type="checkbox" required>
+                            <span class="checkmark"></span>
+                            Kullanım koşullarını ve gizlilik politikasını kabul ediyorum
+                        </label>
+                    </div>
+                    <button type="submit" class="register-btn">Kayıt Ol</button>
+                </form>
+                <div class="modal-footer">
+                    <p>Zaten hesabınız var mı? <a href="#" onclick="showLoginModal(); hideRegisterModal();">Giriş Yap</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Favorites Modal -->
+    <div class="modal" id="favoritesModal">
+        <div class="modal-content favorites-modal-content">
+            <div class="modal-header">
+                <h3>Favorilerim</h3>
+                <button class="close-modal" onclick="hideFavoritesModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="favorites-grid" id="favoritesGrid">
+                    <p class="empty-favorites">Henüz favori ürününüz yok</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Seller Registration Modal -->
+    <div class="modal" id="sellerModal">
+        <div class="modal-content seller-modal-content">
+            <div class="modal-header">
+                <h3>Satıcı Ol</h3>
+                <button class="close-modal" onclick="hideSellerModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="seller-form-steps">
+                    <div class="step-indicator">
+                        <div class="step active" data-step="1">
+                            <span>1</span>
+                            <label>Kişisel Bilgiler</label>
+                        </div>
+                        <div class="step" data-step="2">
+                            <span>2</span>
+                            <label>İşletme Bilgileri</label>
+                        </div>
+                        <div class="step" data-step="3">
+                            <span>3</span>
+                            <label>Banka & Vergi</label>
+                        </div>
+                    </div>
+                    
+                    <form id="sellerForm">
+                        <!-- Step 1: Personal Information -->
+                        <div class="form-step active" data-step="1">
+                            <h4>Kişisel Bilgileriniz</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Ad Soyad *</label>
+                                    <input type="text" name="fullName" placeholder="Adınız ve soyadınız" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>T.C. Kimlik No *</label>
+                                    <input type="text" name="tcNo" placeholder="11 haneli T.C. kimlik numaranız" maxlength="11" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>E-posta Adresi *</label>
+                                    <input type="email" name="email" placeholder="ornek@email.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Telefon Numarası *</label>
+                                    <input type="tel" name="phone" placeholder="0555 123 45 67" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Adres *</label>
+                                <textarea name="address" placeholder="Tam adresinizi yazınız" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Business Information -->
+                        <div class="form-step" data-step="2">
+                            <h4>İşletme Bilgileriniz</h4>
+                            <div class="form-group">
+                                <label>İşletme Türü *</label>
+                                <select name="businessType" required>
+                                    <option value="">Seçiniz</option>
+                                    <option value="individual">Şahıs İşletmesi</option>
+                                    <option value="limited">Limited Şirket</option>
+                                    <option value="corporation">Anonim Şirket</option>
+                                    <option value="cooperative">Kooperatif</option>
+                                </select>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>İşletme Adı *</label>
+                                    <input type="text" name="businessName" placeholder="İşletmenizin ticari unvanı" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Vergi Numarası *</label>
+                                    <input type="text" name="taxNumber" placeholder="10 haneli vergi numarası" maxlength="10" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Satacağınız Ürün Kategorileri *</label>
+                                <div class="checkbox-grid">
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="categories" value="elektronik">
+                                        <span>Elektronik</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="categories" value="moda">
+                                        <span>Moda & Giyim</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="categories" value="ev">
+                                        <span>Ev & Yaşam</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="categories" value="spor">
+                                        <span>Spor & Outdoor</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="categories" value="kozmetik">
+                                        <span>Kozmetik</span>
+                                    </label>
+                                    <label class="checkbox-item">
+                                        <input type="checkbox" name="categories" value="kitap">
+                                        <span>Kitap & Kırtasiye</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>İşletme Adresi *</label>
+                                <textarea name="businessAddress" placeholder="İşletmenizin kayıtlı adresi" rows="3" required></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Bank & Tax Information -->
+                        <div class="form-step" data-step="3">
+                            <h4>Banka ve Vergi Bilgileri</h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Banka Adı *</label>
+                                    <select name="bankName" required>
+                                        <option value="">Bankanızı seçiniz</option>
+                                        <option value="ziraat">Ziraat Bankası</option>
+                                        <option value="halkbank">Halkbank</option>
+                                        <option value="vakifbank">VakıfBank</option>
+                                        <option value="isbank">İş Bankası</option>
+                                        <option value="garanti">Garanti BBVA</option>
+                                        <option value="akbank">Akbank</option>
+                                        <option value="yapi-kredi">Yapı Kredi</option>
+                                        <option value="denizbank">DenizBank</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>IBAN *</label>
+                                    <input type="text" name="iban" placeholder="TR00 0000 0000 0000 0000 0000 00" maxlength="32" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Vergi Dairesi *</label>
+                                <input type="text" name="taxOffice" placeholder="Bağlı olduğunuz vergi dairesi" required>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox" name="agreements" required>
+                                    <span class="checkmark"></span>
+                                    Satıcı sözleşmesini, gizlilik politikasını ve kullanım koşullarını okudum ve kabul ediyorum
+                                </label>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <label>
+                                    <input type="checkbox" name="kvkk">
+                                    <span class="checkmark"></span>
+                                    Kişisel verilerimin işlenmesine ilişkin aydınlatma metnini okudum ve onaylıyorum
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-navigation">
+                            <button type="button" class="btn-secondary" id="prevBtn" onclick="previousStep()" style="display: none;">Geri</button>
+                            <button type="button" class="btn-primary" id="nextBtn" onclick="nextStep()">İleri</button>
+                            <button type="submit" class="btn-primary" id="submitBtn" style="display: none;">Başvuruyu Gönder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal" id="productModal">
+        <div class="modal-content product-modal-content">
+            <div class="modal-header">
+                <h3 id="productModalTitle">Ürün Detayı</h3>
+                <button class="close-modal" onclick="hideProductModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="productModalBody">
+                <!-- Ürün detayları JavaScript ile yüklenecek -->
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
