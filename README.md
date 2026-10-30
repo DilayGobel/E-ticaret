@@ -1,7 +1,7 @@
-# TrendyShop - E-Ticaret Sitesi
+#  E-Ticaret Sitesi
 
 Trendyol benzeri modern ve responsive e-ticaret web sitesi. Vanilla JavaScript, HTML5 ve CSS3 kullanılarak geliştirilmiştir.
-a
+
 ## 🚀 Özellikler
 
 ### Ana Özellikler
